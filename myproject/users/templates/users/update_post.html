@@ -1,5 +1,69 @@
-<h2>Update Post</h2>
-<form method="POST">
-  {% csrf_token %} {{ form.as_p }}
-  <button type="submit">Update Post</button>
-</form>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Update Post</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">
+        Actualizar Publicación
+      </h2>
+
+      <form method="POST" class="space-y-4">
+        {% csrf_token %} {% for field in form %}
+        <div class="space-y-2">
+          <label
+            for="{{ field.id_for_label }}"
+            class="block text-sm font-medium text-gray-700"
+          >
+            {{ field.label }}
+          </label>
+          {% if field.name == 'content' %}
+          <textarea
+            name="{{ field.name }}"
+            id="{{ field.id_for_label }}"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+            rows="4"
+          >
+{{ field.value|default:'' }}</textarea
+          >
+          {% else %}
+          <input
+            type="{{ field.field.widget.input_type }}"
+            name="{{ field.name }}"
+            id="{{ field.id_for_label }}"
+            value="{{ field.value|default:'' }}"
+            class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+          />
+          {% endif %} {% if field.errors %}
+          <p class="text-red-500 text-xs italic">
+            {{ field.errors|striptags }}
+          </p>
+          {% endif %}
+        </div>
+        {% endfor %}
+
+        <div class="flex items-center justify-between mt-6">
+          <button
+            type="submit"
+            class="bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-300"
+          >
+            Aceptar
+          </button>
+          <a
+            href="{% url 'post-list' %}"
+            class="text-indigo-600 hover:text-indigo-800 transition duration-300"
+            >Cancelar</a
+          >
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

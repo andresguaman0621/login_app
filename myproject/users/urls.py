@@ -7,6 +7,8 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('home/', views.home, name='home'),
     
+    
+    
     path('posts/', views.post_list, name='post-list'),
     path('posts/create/', views.create_post, name='create-post'),
     path('posts/update/<int:pk>/', views.update_post, name='update-post'),

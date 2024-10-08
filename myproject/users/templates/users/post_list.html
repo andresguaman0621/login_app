@@ -1,16 +1,69 @@
-<h2>Posts</h2>
-<a href="{% url 'create-post' %}">Create a New Post</a>
-<ul>
-  {% for post in posts %}
-  <li>
-    <h3>{{ post.title }}</h3>
-    <p>{{ post.content }}</p>
-    <p>Posted by {{ post.author }} on {{ post.date_posted }}</p>
-    <a href="{% url 'update-post' post.pk %}">Edit</a>
-    <form method="POST" action="{% url 'delete-post' post.pk %}">
-      {% csrf_token %}
-      <button type="submit">Delete</button>
-    </form>
-  </li>
-  {% endfor %}
-</ul>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posts</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 min-h-screen">
+    <div class="container mx-auto px-4 py-8">
+      <h2 class="text-3xl font-bold mb-6 text-center text-indigo-600">
+        Publicaciones
+      </h2>
+
+      <div class="flex justify-between items-center mb-8">
+        <a
+          href="{% url 'create-post' %}"
+          class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300"
+        >
+          Crear Publicación
+        </a>
+        <a
+          href="{% url 'logout' %}"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded transition duration-300"
+        >
+          Cerrar sesión
+        </a>
+      </div>
+
+      <div class="space-y-6">
+        {% for post in posts %}
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-xl font-semibold mb-2 text-indigo-700">
+            {{ post.title }}
+          </h3>
+          <p class="text-gray-600 mb-4">{{ post.content }}</p>
+          <div class="flex justify-between items-center text-sm text-gray-500">
+            <p>Publicado por {{ post.author }} on {{ post.date_posted }}</p>
+            <div class="space-x-2">
+              <a
+                href="{% url 'update-post' post.pk %}"
+                class="text-blue-500 hover:text-blue-600 transition duration-300"
+                >Editar</a
+              >
+              <form
+                method="POST"
+                action="{% url 'delete-post' post.pk %}"
+                class="inline"
+              >
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="text-red-500 hover:text-red-600 transition duration-300"
+                >
+                  Eliminar
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </body>
+</html>

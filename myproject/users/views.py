@@ -6,6 +6,8 @@ from .forms import UserRegisterForm, UserLoginForm
 from .models import Post
 from .forms import PostForm
 
+from django.contrib.auth.forms import AuthenticationForm
+
 # Registration view
 def register(request):
     if request.method == 'POST':
@@ -29,7 +31,8 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')  # Redirect to a home page
+                return redirect('post-list')  # Redirect to post list page after login
+                
     else:
         form = UserLoginForm()
     return render(request, 'users/login.html', {'form': form})
