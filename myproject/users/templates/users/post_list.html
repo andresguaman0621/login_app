@@ -1,0 +1,16 @@
+<h2>Posts</h2>
+<a href="{% url 'create-post' %}">Create a New Post</a>
+<ul>
+  {% for post in posts %}
+  <li>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.content }}</p>
+    <p>Posted by {{ post.author }} on {{ post.date_posted }}</p>
+    <a href="{% url 'update-post' post.pk %}">Edit</a>
+    <form method="POST" action="{% url 'delete-post' post.pk %}">
+      {% csrf_token %}
+      <button type="submit">Delete</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
